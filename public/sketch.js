@@ -54,11 +54,11 @@ class Guzai {
 }
 let guzaiList = [];
 
-let Images = [];
+let images = [];
 let imageBase = null;
 const preload = async () => {
   for (let i = 0; i < osechi.length; i++) {
-    Images[i] = await loadImage("assets/" + osechi[i].image);
+    images[i] = await loadImage("assets/" + osechi[i].image);
   }
   imageBase = await loadImage("assets/plate.png");
 };
@@ -178,9 +178,9 @@ function drawCombo(combo, scale) {
   drawCombo_count -= deltaTime;
   for (let i = 0; i < combo.length; i++) {
     if (combo[i].length == 1) continue;
-    let R = 255;
-    let G = 255;
-    let B = 0;
+    const R = 255;
+    const G = 255;
+    const B = 0;
     for (let j = 0; j < combo[i].length; j++) {
       const cell = field.cells[combo[i][j].y * YSIZE + combo[i][j].x];
       draw_frame(cell, scale, R, G, B);
@@ -260,7 +260,7 @@ function pushFieldFromSelectMino(scale, marginx, marginy) {
         fieldCell.cellId = minoCell.cellId;
 
         //guzaiListに追加
-        let guzai = new Guzai(minoCell.cellId, fieldCell.x, fieldCell.y);
+        const guzai = new Guzai(minoCell.cellId, fieldCell.x, fieldCell.y);
         guzaiList.push(guzai);
       }
     }
@@ -342,7 +342,7 @@ function drawMino(mino, size) {
       }
 
       image(imageBase, pos.x, pos.y, size, size);
-      image(Images[cell.cellId], pos.x, pos.y, size, size);
+      image(images[cell.cellId], pos.x, pos.y, size, size);
     }
   }
 }
@@ -373,7 +373,7 @@ function drawCell(cell, x, y, size) {
 
   if (cell.cellId !== -1) {
     image(imageBase, x, y, size, size);
-    image(Images[cell.cellId], x, y, size, size);
+    image(images[cell.cellId], x, y, size, size);
   }
   fill(255);
 }
