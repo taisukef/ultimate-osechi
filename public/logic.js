@@ -21,14 +21,16 @@ class Mino {
 }
 class Field {
   constructor(xsize, ysize) {
-    this.cells = new Array(ysize * xsize).fill().map((_) => new Cell(-1, -1, -1, -1))
+    this.cells = new Array(ysize * xsize).fill().map((_) =>
+      new Cell(-1, -1, -1, -1)
+    );
     this.combo = this.combo_check();
     this.size = xsize * ysize;
     this.xsize = xsize;
     this.ysize = ysize;
   }
   combo_check() {
-    let dxdy = [
+    const dxdy = [
       //近傍の相対的な座標
       [0, 1],
       [1, 0],
@@ -36,34 +38,38 @@ class Field {
       [-1, 0],
     ];
     //comboしているミノのidを二次元配列に記録 例:[[1,2,3],[4,6],[5]]
-    let combo = [];
+    const combo = [];
     for (let i = 0; i < this.size; i++) {
       combo.push([]);
     }
 
-    let uf = new UnionFind(this.size);
+    const uf = new UnionFind(this.size);
     const XSIZE = this.xsize;
     const YSIZE = this.ysize;
 
     //近傍を見て同じCellIdの場合は連結とみなす
     for (let y = 0; y < YSIZE; y++) {
       for (let x = 0; x < XSIZE; x++) {
-        if (this.cells[y*XSIZE+x].parentMinoId == -1) continue;
+        if (this.cells[y * XSIZE + x].parentMinoId == -1) continue;
 
         for (let i = 0; i < 4; i++) {
-          let nx = x + dxdy[i][0];
-          let ny = y + dxdy[i][1];
+          const nx = x + dxdy[i][0];
+          const ny = y + dxdy[i][1];
           if (
             nx < 0 ||
             nx >= XSIZE ||
             ny < 0 ||
             ny >= YSIZE
-          )
+          ) {
             continue;
-          if (this.cells[y*XSIZE+x].cellId == this.cells[ny*XSIZE+nx].cellId) {
+          }
+          if (
+            this.cells[y * XSIZE + x].cellId ==
+              this.cells[ny * XSIZE + nx].cellId
+          ) {
             uf.union(
               y * XSIZE + x,
-              ny * XSIZE + nx
+              ny * XSIZE + nx,
             );
           }
         }
@@ -73,9 +79,9 @@ class Field {
     //描画やスコア計算のために連結集合を配列にまとめる
     for (let y = 0; y < YSIZE; y++) {
       for (let x = 0; x < XSIZE; x++) {
-        if (this.cells[y*XSIZE+x].parentMinoId == -1) continue;
+        if (this.cells[y * XSIZE + x].parentMinoId == -1) continue;
         combo[uf.find(y * XSIZE + x)].push(
-          new Coordinate(y, x)
+          new Coordinate(y, x),
         );
       }
     }
@@ -92,7 +98,7 @@ class Field {
   score() {
     //暫定の計算式　全ての連結集合に対して、(連結数-1)の二乗+連結数
     //孤立したセルは 1点 二個連結したセルは 2点 三個連結したセルは 5点 四個連結したセルは 10点
-    let combo = this.combo_check();
+    const combo = this.combo_check();
     let score = 0;
     for (let i = 0; i < combo.length; i++) {
       score += (combo[i].length - 1) * (combo[i].length - 1) + combo[i].length;

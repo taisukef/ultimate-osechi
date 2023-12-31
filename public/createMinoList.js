@@ -1,14 +1,7 @@
 import { Cell } from "./logic.js";
 import { IMino, LMino, OMino, SMino, TMino } from "./mino.js";
-export function createMinoList(num) {
-  const MinoList = [];
-  for (let i = 0; i < num; i++) {
-    MinoList.push(randomMino(new Cell(i, -2)));
-  }
-  return MinoList;
-}
 
-function randomMino(parentId) {
+const randomMino = (parentId) => {
   const minoType = Math.floor(Math.random() * 5);
   switch (minoType) {
     case 0:
@@ -22,4 +15,12 @@ function randomMino(parentId) {
     case 4:
       return new TMino(parentId);
   }
-}
+};
+
+export const createMinoList = (num) => {
+  const minoList = [];
+  for (let i = 0; i < num; i++) {
+    minoList.push(randomMino(new Cell(i, -2)));
+  }
+  return minoList;
+};
