@@ -24,4 +24,3 @@ export const createMinoList = (num) => {
   }
   return minoList;
 };
-
