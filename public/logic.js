@@ -21,7 +21,9 @@ class Mino {
 }
 class Field {
   constructor(xsize, ysize) {
-    this.cells = new Array(ysize * xsize).fill().map((_) => new Cell(-1, -1, -1, -1))
+    this.cells = new Array(ysize * xsize).fill().map((_) =>
+      new Cell(-1, -1, -1, -1)
+    );
     this.combo = this.combo_check();
     this.size = xsize * ysize;
     this.xsize = xsize;
@@ -48,7 +50,7 @@ class Field {
     //近傍を見て同じCellIdの場合は連結とみなす
     for (let y = 0; y < YSIZE; y++) {
       for (let x = 0; x < XSIZE; x++) {
-        if (this.cells[y*XSIZE+x].parentMinoId == -1) continue;
+        if (this.cells[y * XSIZE + x].parentMinoId == -1) continue;
 
         for (let i = 0; i < 4; i++) {
           let nx = x + dxdy[i][0];
@@ -58,12 +60,16 @@ class Field {
             nx >= XSIZE ||
             ny < 0 ||
             ny >= YSIZE
-          )
+          ) {
             continue;
-          if (this.cells[y*XSIZE+x].cellId == this.cells[ny*XSIZE+nx].cellId) {
+          }
+          if (
+            this.cells[y * XSIZE + x].cellId ==
+              this.cells[ny * XSIZE + nx].cellId
+          ) {
             uf.union(
               y * XSIZE + x,
-              ny * XSIZE + nx
+              ny * XSIZE + nx,
             );
           }
         }
@@ -73,9 +79,9 @@ class Field {
     //描画やスコア計算のために連結集合を配列にまとめる
     for (let y = 0; y < YSIZE; y++) {
       for (let x = 0; x < XSIZE; x++) {
-        if (this.cells[y*XSIZE+x].parentMinoId == -1) continue;
+        if (this.cells[y * XSIZE + x].parentMinoId == -1) continue;
         combo[uf.find(y * XSIZE + x)].push(
-          new Coordinate(y, x)
+          new Coordinate(y, x),
         );
       }
     }

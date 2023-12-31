@@ -1,7 +1,28 @@
-import { background, strokeWeight, stroke, rect, fill, noFill, deltaTime, image, loadImage, mouseX, mouseY, canvas, dist, textSize, textAlign, CENTER, text, main, noStroke, frameCount } from "https://code4fukui.github.io/p5.es/p5.js";
+import {
+  background,
+  canvas,
+  CENTER,
+  deltaTime,
+  dist,
+  fill,
+  frameCount,
+  image,
+  loadImage,
+  main,
+  mouseX,
+  mouseY,
+  noFill,
+  noStroke,
+  rect,
+  stroke,
+  strokeWeight,
+  text,
+  textAlign,
+  textSize,
+} from "https://code4fukui.github.io/p5.es/p5.js";
 import { createMinoList } from "./createMinoList.js";
 import { Cell, Coordinate, Field } from "./logic.js";
-import { showTitle, showHelp, showRetry } from "./modal.js";
+import { showHelp, showRetry, showTitle } from "./modal.js";
 import osechi from "./osechi.js";
 
 const XSIZE = 10;
@@ -13,24 +34,23 @@ let selectMino = null;
 let drawCombo_count = 0;
 let minoList = null;
 
-class Guzai{
-    constructor(num, x, y){
-        this.guzai = num;
-        this.x = x;
-        this.y = y;
-        this.life = 2000;
-    }
-    draw(){
-
-        fill(255,255,0);
-        textSize((1-(this.life/2000)**5)*20 * 2);
-        textAlign(CENTER, CENTER);
-        text(osechi[this.guzai].name, this.x, this.y);
-        //rect(this.x, this.y, 20, 20);
-        fill(255);
-        this.y-=0.1;
-        this.life-=50;
-    }
+class Guzai {
+  constructor(num, x, y) {
+    this.guzai = num;
+    this.x = x;
+    this.y = y;
+    this.life = 2000;
+  }
+  draw() {
+    fill(255, 255, 0);
+    textSize((1 - (this.life / 2000) ** 5) * 20 * 2);
+    textAlign(CENTER, CENTER);
+    text(osechi[this.guzai].name, this.x, this.y);
+    //rect(this.x, this.y, 20, 20);
+    fill(255);
+    this.y -= 0.1;
+    this.life -= 50;
+  }
 }
 let guzaiList = [];
 
@@ -79,7 +99,9 @@ const drawHeader = (offx, offy, width, height) => {
   fill(230);
   text("?", ix + ih / 2, offy + (h - ih) / 2 + ih / 2);
   fill(0);
-  const time = starttime == null ? timelimit : timelimit - Math.floor((performance.now() - starttime) / 1000);
+  const time = starttime == null
+    ? timelimit
+    : timelimit - Math.floor((performance.now() - starttime) / 1000);
   text(time + "sec", offx + width / 2, h / 2);
   text("SCORE: " + field.score(), offx + width * .8, h / 2);
   return h;
@@ -88,7 +110,10 @@ const HEIGHT_RATIO_FIELD = 0.7;
 
 const draw = async (flgresize) => {
   background(220);
-  const scale = Math.min(canvas.height / (YSIZE + 5 + 1), canvas.width / (XSIZE + 2));
+  const scale = Math.min(
+    canvas.height / (YSIZE + 5 + 1),
+    canvas.width / (XSIZE + 2),
+  );
   const heightHeader = scale;
   const heightField = scale * (YSIZE + 1);
   const width = scale * (XSIZE + 2);
@@ -112,7 +137,7 @@ const draw = async (flgresize) => {
     setupMinoListPosition(marginx, marginySelect, width, viewScale);
   }
   minoList.forEach((m) => drawMino(m, viewScale));
-  
+
   if (selectMino !== null) {
     selectMino.x = mouseX - scale / 2;
     selectMino.y = mouseY - scale / 2;
@@ -138,15 +163,14 @@ const draw = async (flgresize) => {
     pushFieldFromSelectMino(scale, marginx, heightHeader);
   };
 };
-function drawGuzais(){
-    for(let i = 0; i < guzaiList.length; i++){
-        guzaiList[i].draw();
-        guzaiList[i].life--;
-        if(guzaiList[i].life < 0){
-            guzaiList.splice(i,1);
-        }
+function drawGuzais() {
+  for (let i = 0; i < guzaiList.length; i++) {
+    guzaiList[i].draw();
+    guzaiList[i].life--;
+    if (guzaiList[i].life < 0) {
+      guzaiList.splice(i, 1);
     }
-
+  }
 }
 function drawCombo(combo, scale) {
   /*コンボ部分を点滅させる*/
@@ -161,7 +185,6 @@ function drawCombo(combo, scale) {
       const cell = field.cells[combo[i][j].y * YSIZE + combo[i][j].x];
       draw_frame(cell, scale, R, G, B);
     }
- 
   }
 }
 function draw_frame(cell, size, R, G, B) {
@@ -260,7 +283,7 @@ function setMinoFrom(mx, my, scale, marginx, marginy) {
         mx - scale / 2,
         my - scale / 2,
         marginx + x * scale + scale,
-        marginy + y * scale + scale / 2
+        marginy + y * scale + scale / 2,
       );
 
       if (d < scale / 2) {
@@ -284,7 +307,7 @@ function updateSelectMinoFrom(mx, my, viewScale) {
           mx,
           my,
           x * viewScale + m.x + viewScale / 2,
-          y * viewScale + m.y + viewScale / 2
+          y * viewScale + m.y + viewScale / 2,
         );
 
         if (d <= viewScale) {

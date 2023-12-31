@@ -1,18 +1,18 @@
 export const showTitle = async () => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const btn = document.querySelector("#modal-title button");
     btn.addEventListener("click", () => {
       const blackDom = document.getElementById("modal-black");
       blackDom.classList.add("hide");
       const titleDom = document.getElementById("modal-title");
       titleDom.classList.add("hide");
-      resolve()
+      resolve();
     });
   });
 };
 
 export const showRetry = async (score) => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const blackDom = document.getElementById("modal-black");
     blackDom.classList.remove("hide");
     const titleDom = document.getElementById("modal-retry");
@@ -53,7 +53,7 @@ const initHelp = (types) => {
 
 export const showHelp = async (types) => {
   initHelp(types);
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const blackDom = document.getElementById("modal-black");
     blackDom.classList.remove("hide");
     const titleDom = document.getElementById("modal-help");
@@ -65,7 +65,7 @@ export const showHelp = async (types) => {
       blackDom.classList.add("hide");
       const titleDom = document.getElementById("modal-help");
       titleDom.classList.add("hide");
-      resolve()
+      resolve();
     });
   });
 };
