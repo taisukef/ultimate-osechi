@@ -86,14 +86,14 @@ class Field {
       }
     }
     //空の配列を削除
-    combo = combo.filter((value) => {
+    const combo2 = combo.filter((value) => {
       return value.length > 0;
     });
     //comboを連結数の降順にソート
-    combo.sort((a, b) => {
+    combo2.sort((a, b) => {
       return b.length - a.length;
     });
-    return combo;
+    return combo2;
   }
   score() {
     //暫定の計算式　全ての連結集合に対して、(連結数-1)の二乗+連結数
